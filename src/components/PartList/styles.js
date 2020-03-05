@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    width: 75%;
-    border-right: 5px solid rgba(0, 0, 0, 0.15);
+    width: 74%;
     header {
+        margin-bottom: 4px;
+        width: 100%;
         height: 50px;
         display: flex;
         flex-direction: row;
@@ -21,5 +22,12 @@ export const Container = styled.div`
             -webkit-text-fill-color: #fff;
             text-align: center;
         }
+    }
+    ul {
+        height: calc(100% - 204px);
+        width: 73.4%;
+        position: absolute;
+        overflow-y: scroll;
+        overflow-x: scroll;
     }
 `;

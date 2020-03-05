@@ -25,9 +25,7 @@ export default function Item(value) {
     }
     const ref = useRef();
     const ref2 = useRef();
-    const { moveinpl, movetoitem, removefromel, addtopl } = useContext(
-        MainContext
-    );
+    const { moveinpl, removefromel, addtopl } = useContext(MainContext);
 
     const [{ isDragging }, dragRef, preview] = useDrag({
         item: { type: 'ITEM', value },
@@ -39,6 +37,10 @@ export default function Item(value) {
         accept: ['ITEM', 'ENGITEM'],
         hover(item, monitor) {
             if (item.type === 'ITEM') {
+                if (!item.root) {
+                    // eslint-disable-next-line no-param-reassign
+                    item.root = item.value;
+                }
                 const draggedIndex = item.value;
                 const targetIndex = value;
                 const targetSize = ref.current.getBoundingClientRect();
@@ -61,6 +63,7 @@ export default function Item(value) {
             } else if (item.type === 'ENGITEM') {
                 const targetIndex = value;
                 const draggedIndex = addtopl(item.iteminfo);
+                removefromel(item.iteminfo);
                 const targetSize = ref.current.getBoundingClientRect();
                 const targetCenter = (targetSize.bottom - targetSize.top) / 2;
                 if (draggedIndex === targetIndex.value) {
@@ -75,7 +78,6 @@ export default function Item(value) {
                 if (draggedIndex > targetIndex && draggedTop > targetCenter) {
                     return;
                 }
-                console.log(`moving ${draggedIndex} to ${targetIndex.value}`);
                 if (draggedIndex >= 0) {
                     moveinpl(draggedIndex, targetIndex.value);
                 }
@@ -84,32 +86,6 @@ export default function Item(value) {
                 item.value = targetIndex;
             }
         },
-        /*   drop(item, monitor) {
-            const draggedIndex = item.value;
-            const targetIndex = value;
-            const targetSize = ref.current.getBoundingClientRect();
-            const targetCenter = (targetSize.bottom - targetSize.top) / 2;
-            if (draggedIndex === targetIndex) {
-                return;
-            }
-
-            const draggedOffset = monitor.getClientOffset();
-            const draggedTop = draggedOffset.y - targetSize.top;
-            if (draggedIndex < targetIndex && draggedTop < targetCenter) {
-                return;
-            }
-            if (draggedIndex > targetIndex && draggedTop > targetCenter) {
-                return;
-            }
-            if (item.type === 'ENGITEM') {
-                movetoitem(targetIndex.value, item.iteminfo);
-                removefromel(draggedIndex);
-                return;
-            }
-            moveinpl(draggedIndex.value, targetIndex.value, item.iteminfo);
-            // eslint-disable-next-line no-param-reassign
-            item.value = targetIndex;
-        }, */
     });
     dragRef(ref);
     preview(dropRef(ref2));

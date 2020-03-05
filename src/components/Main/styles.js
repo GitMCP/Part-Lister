@@ -9,12 +9,21 @@ export const Container = styled.div`
         .btnAll {
             display: flex;
             flex-direction: column;
+            margin-left: calc(74% - 12px);
             position: fixed;
-            margin-left: calc(75% - 20px);
             top: 50%;
             button {
                 min-width: 5px;
-                height: 40px;
+            }
+            * {
+                padding: 0;
+            }
+            .MuiButton-text {
+                border-radius: 50px;
+                border: 1px solid rgba(150, 200, 250, 0.8);
+                padding: 0;
+                padding-top: 20px;
+                padding-bottom: 20px;
             }
         }
     }

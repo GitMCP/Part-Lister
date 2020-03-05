@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import { useDrop } from 'react-dnd';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import MainContext from '../Main/context';
 import { Container } from './styles';
 import Item from '../Item';
 
-export default function PartList({ list, englist }) {
+export default function PartList({ list }) {
     const { addtopl, removefromel } = useContext(MainContext);
 
     const [, dropRef] = useDrop({
@@ -35,18 +34,11 @@ export default function PartList({ list, englist }) {
                 <h1 id="eff">Effectivity</h1>
                 <h1 id="qty">Quantity</h1>
             </header>
-            <PerfectScrollbar>
-                <ul
-                    ref={dropRef}
-                    style={{
-                        height: `${(list.length + englist.length) * 40}px`,
-                    }}
-                >
-                    {list.map((item, index) => (
-                        <Item key={item.id} value={index} iteminfo={item} />
-                    ))}
-                </ul>
-            </PerfectScrollbar>
+            <ul ref={dropRef}>
+                {list.map((item, index) => (
+                    <Item key={item.id} value={index} iteminfo={item} />
+                ))}
+            </ul>
         </Container>
     );
 }

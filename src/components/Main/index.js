@@ -27,10 +27,10 @@ export default function Main() {
         console.log(pl.indexOf(item));
         return pl.indexOf(item);
     }
-    function removefromel(index) {
+    function removefromel(item) {
         setEl(
             produce(el, draft => {
-                draft.splice(index, 1);
+                draft.splice(pl.indexOf(item), 1);
             })
         );
     }
@@ -43,17 +43,10 @@ export default function Main() {
             })
         );
     }
-    function movetoitem(to, item) {
+    function movetoel(item) {
         setPl(
             produce(pl, draft => {
-                draft.splice(to, 0, item);
-            })
-        );
-    }
-    function movetoel(from, item) {
-        setPl(
-            produce(pl, draft => {
-                draft.splice(from, 1);
+                draft.splice(pl.indexOf(item), 1);
             })
         );
         setEl(
@@ -95,14 +88,13 @@ export default function Main() {
                 addtopl,
                 removefromel,
                 moveinpl,
-                movetoitem,
                 movetoel,
             }}
         >
             <Container>
                 <Header />
                 <div id="lists">
-                    <PartList list={pl} englist={el} />
+                    <PartList list={pl} />
                     <div
                         style={{
                             height: `${pl.length * 40}px`,
@@ -116,7 +108,7 @@ export default function Main() {
                             <MdKeyboardArrowLeft size="24px" />
                         </Button>
                     </div>
-                    <EngList list={el} partlist={pl} />
+                    <EngList list={el} />
                 </div>
             </Container>
         </MainContext.Provider>

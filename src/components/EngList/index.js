@@ -4,13 +4,13 @@ import MainContext from '../Main/context';
 import { Container } from './styles';
 import EngItem from '../EngItem';
 
-export default function EngList({ list, partlist }) {
+export default function EngList({ list }) {
     const { movetoel } = useContext(MainContext);
 
     const [{ isOver }, dropRef] = useDrop({
         accept: ['ITEM'],
         drop(item) {
-            movetoel(item.value.value, item.value.iteminfo);
+            movetoel(item.root.iteminfo);
         },
         collect: monitor => ({
             isOver: monitor.isOver(),
@@ -26,7 +26,7 @@ export default function EngList({ list, partlist }) {
             </header>
             <ul
                 ref={dropRef}
-                style={{ height: `${(list.length + partlist.length) * 40}px` }}
+                /* style={{ height: `${(list.length + partlist.length) * 40}px` }} */
             >
                 <p className="message">Move back to Engineering List</p>
                 {list.map((item, index) => (

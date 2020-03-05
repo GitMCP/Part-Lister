@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    width: 25%;
-    border-left: 5px solid rgba(0, 0, 0, 0.15);
+    width: calc(26% - 14px);
+    min-height: calc(100% - 200px);
+    margin-left: 14px;
 
     header {
+        margin-bottom: 4px;
+        margin-left: -14px;
         height: 50px;
         display: flex;
         flex-direction: row;
@@ -27,6 +30,10 @@ export const Container = styled.div`
         background-color: ${props => (props.hover ? '#cfe3fa' : '#eff3f8')};
         border: ${props =>
             props.hover ? '5px dashed rgba(150, 200, 250, 0.8)' : 'e'};
+        height: calc(100% - 204px);
+        width: 25.3%;
+        position: absolute;
+        overflow-y: scroll;
         .item {
             visibility: ${props => (props.hover ? 'hidden' : 'visible')};
         }
