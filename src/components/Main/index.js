@@ -24,15 +24,16 @@ export default function Main() {
                 })
             );
         }
-        console.log(pl.indexOf(item));
         return pl.indexOf(item);
     }
     function removefromel(item) {
-        setEl(
-            produce(el, draft => {
-                draft.splice(pl.indexOf(item), 1);
-            })
-        );
+        if (el.includes(item)) {
+            setEl(
+                produce(el, draft => {
+                    draft.splice(el.indexOf(item), 1);
+                })
+            );
+        }
     }
     function moveinpl(from, to) {
         setPl(
@@ -44,16 +45,20 @@ export default function Main() {
         );
     }
     function movetoel(item) {
-        setPl(
-            produce(pl, draft => {
-                draft.splice(pl.indexOf(item), 1);
-            })
-        );
-        setEl(
-            produce(el, draft => {
-                draft.push(item);
-            })
-        );
+        if (pl.includes(item.iteminfo)) {
+            setPl(
+                produce(pl, draft => {
+                    draft.splice(pl.indexOf(item.iteminfo), 1);
+                })
+            );
+        }
+        if (!el.includes(item)) {
+            setEl(
+                produce(el, draft => {
+                    draft.splice(item.root, 0, item.iteminfo);
+                })
+            );
+        }
     }
     function movealltopl() {
         setPl(

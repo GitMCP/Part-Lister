@@ -8,9 +8,15 @@ export default function EngList({ list }) {
     const { movetoel } = useContext(MainContext);
 
     const [{ isOver }, dropRef] = useDrop({
-        accept: ['ITEM'],
+        accept: ['ITEM', 'ENGITEM'],
         drop(item) {
-            movetoel(item.root.iteminfo);
+            if (item.type === 'ITEM') {
+                movetoel(item.root.iteminfo);
+            } else if (item.type === 'ENGITEM') {
+                if (item.root) {
+                    movetoel(item);
+                }
+            }
         },
         collect: monitor => ({
             isOver: monitor.isOver(),
@@ -24,10 +30,7 @@ export default function EngList({ list }) {
                 <h1 id="nomen">Nomenclature</h1>
                 <h1 id="qty">Quantity</h1>
             </header>
-            <ul
-                ref={dropRef}
-                /* style={{ height: `${(list.length + partlist.length) * 40}px` }} */
-            >
+            <ul ref={dropRef}>
                 <p className="message">Move back to Engineering List</p>
                 {list.map((item, index) => (
                     <div className="item">

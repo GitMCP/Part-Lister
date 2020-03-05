@@ -13,7 +13,7 @@ export default function PartList({ list }) {
         drop(item, monitor) {
             if (monitor.isOver()) {
                 addtopl(item.iteminfo);
-                removefromel(item.value);
+                removefromel(item.iteminfo);
             }
         },
     });

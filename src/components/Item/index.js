@@ -61,6 +61,10 @@ export default function Item(value) {
                 // eslint-disable-next-line no-param-reassign
                 item.value = targetIndex;
             } else if (item.type === 'ENGITEM') {
+                if (!item.root) {
+                    // eslint-disable-next-line no-param-reassign
+                    item.root = item.value;
+                }
                 const targetIndex = value;
                 const draggedIndex = addtopl(item.iteminfo);
                 removefromel(item.iteminfo);

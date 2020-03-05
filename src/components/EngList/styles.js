@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    width: calc(26% - 14px);
+    width: calc(26% - 15px);
     min-height: calc(100% - 200px);
-    margin-left: 14px;
+    margin-left: 15px;
 
     header {
         margin-bottom: 4px;
