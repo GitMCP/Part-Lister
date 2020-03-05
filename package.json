@@ -1,8 +1,8 @@
 {
   "name": "partlister",
   "version": "0.1.0",
+  "homepage": "http://.",
   "private": true,
-  "proxy": "http://localhost:8080",
   "dependencies": {
     "@material-ui/core": "^4.9.3",
     "@mui-treasury/layout": "^3.3.3",
