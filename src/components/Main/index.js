@@ -52,7 +52,7 @@ export default function Main() {
                 })
             );
         }
-        if (!el.includes(item)) {
+        if (!el.includes(item.iteminfo)) {
             setEl(
                 produce(el, draft => {
                     draft.splice(item.root, 0, item.iteminfo);
