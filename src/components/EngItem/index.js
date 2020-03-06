@@ -1,16 +1,21 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import { MdReorder } from 'react-icons/md';
 import { useDrag } from 'react-dnd';
 import { Container } from './styles';
+import MainContext from '../Main/context';
 
 export default function EngItem({ value, iteminfo }) {
     const ref = useRef();
     const ref2 = useRef();
+    const { handleFocus } = useContext(MainContext);
     const [{ isDragging }, dragRef, preview] = useDrag({
         item: { type: 'ENGITEM', value, iteminfo },
         collect: monitor => ({
             isDragging: monitor.isDragging(),
         }),
+        end: () => {
+            handleFocus(null);
+        },
     });
 
     dragRef(ref);

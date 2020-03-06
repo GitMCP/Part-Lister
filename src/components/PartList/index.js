@@ -4,7 +4,7 @@ import MainContext from '../Main/context';
 import { Container } from './styles';
 import Item from '../Item';
 
-export default function PartList({ list }) {
+export default function PartList({ list, focus }) {
     const { addtopl, removefromel } = useContext(MainContext);
 
     const [, dropRef] = useDrop({
@@ -36,7 +36,12 @@ export default function PartList({ list }) {
             </header>
             <ul ref={dropRef}>
                 {list.map((item, index) => (
-                    <Item key={item.id} value={index} iteminfo={item} />
+                    <Item
+                        key={item.id}
+                        value={index}
+                        focus={focus}
+                        iteminfo={item}
+                    />
                 ))}
             </ul>
         </Container>

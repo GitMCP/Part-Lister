@@ -15,6 +15,7 @@ const engList = loadPartList();
 export default function Main() {
     const [pl, setPl] = useState(partList);
     const [el, setEl] = useState(engList);
+    const [focus, setFocus] = useState({ index: null });
 
     function addtopl(item) {
         if (!pl.includes(item)) {
@@ -41,6 +42,14 @@ export default function Main() {
                 const dragged = draft[from];
                 draft.splice(from, 1);
                 draft.splice(to, 0, dragged);
+            })
+        );
+    }
+    function handleFocus(index) {
+        setFocus(
+            produce(focus, draft => {
+                // eslint-disable-next-line no-param-reassign
+                draft.index = index;
             })
         );
     }
@@ -94,12 +103,13 @@ export default function Main() {
                 removefromel,
                 moveinpl,
                 movetoel,
+                handleFocus,
             }}
         >
             <Container>
                 <Header />
                 <div id="lists">
-                    <PartList list={pl} />
+                    <PartList list={pl} focus={focus} />
                     <div
                         style={{
                             height: `${pl.length * 40}px`,

@@ -6,7 +6,7 @@ export const Container = styled.div`
     height: 32px;
     border: 0px;
     border-style: solid;
-    border-radius: 10px;
+    border-radius: 20px;
     background-color: #fff;
     box-shadow: 0 1px 4px 0 #768291;
     form {

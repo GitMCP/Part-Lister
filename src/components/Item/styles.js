@@ -1,12 +1,37 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    height: ${props => (props.hovering ? '64px' : '32px')};
+    border: ${props => {
+        if (props.focus.index != null) {
+            return props.focus.index.value === props.index
+                ? '2px dashed #55616f'
+                : 'none';
+        }
+        return 'none';
+    }};
+    margin-top: ${props => {
+        if (props.focus.index != null) {
+            return props.focus.index.value === props.index ? '16px' : '8px';
+        }
+        return '8px';
+    }};
+    margin-bottom: ${props => {
+        if (props.focus.index != null) {
+            return props.focus.index.value === props.index ? '16px' : '8px';
+        }
+        return '8px';
+    }};
+    height: ${props => {
+        if (props.focus.index != null) {
+            return props.focus.index.value === props.index ? '36px' : '32px';
+        }
+        return '32px';
+    }};
     align-items: center;
-    margin: 8px;
-    border: 0px;
-    border-style: solid;
-    border-radius: 10px;
+    align-content: center;
+    margin-right: 8px;
+    margin-left: 8px;
+    border-radius: 20px;
     background-color: #fff;
     box-shadow: 0 1px 4px 0 #768291;
     padding-left: 15px;

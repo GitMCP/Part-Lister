@@ -11,7 +11,6 @@ export default function EngList({ list }) {
         accept: ['ITEM', 'ENGITEM'],
         drop(item) {
             if (item.type === 'ITEM') {
-                console.log(item);
                 movetoel(item.root);
             } else if (item.type === 'ENGITEM') {
                 if (item.root) {

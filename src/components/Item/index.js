@@ -25,13 +25,18 @@ export default function Item(value) {
     }
     const ref = useRef();
     const ref2 = useRef();
-    const { moveinpl, removefromel, addtopl } = useContext(MainContext);
+    const { moveinpl, removefromel, addtopl, handleFocus } = useContext(
+        MainContext
+    );
 
     const [{ isDragging }, dragRef, preview] = useDrag({
         item: { type: 'ITEM', value },
         collect: monitor => ({
             isDragging: monitor.isDragging(),
         }),
+        end: () => {
+            handleFocus(null);
+        },
     });
     const [, dropRef] = useDrop({
         accept: ['ITEM', 'ENGITEM'],
@@ -60,6 +65,7 @@ export default function Item(value) {
                 moveinpl(draggedIndex.value, targetIndex.value);
                 // eslint-disable-next-line no-param-reassign
                 item.value = targetIndex;
+                handleFocus(item.value);
             } else if (item.type === 'ENGITEM') {
                 if (!item.root) {
                     // eslint-disable-next-line no-param-reassign
@@ -88,13 +94,19 @@ export default function Item(value) {
 
                 // eslint-disable-next-line no-param-reassign
                 item.value = targetIndex;
+                handleFocus(item.value);
             }
         },
     });
     dragRef(ref);
     preview(dropRef(ref2));
     return (
-        <Container ref={ref2} isDragging={isDragging}>
+        <Container
+            ref={ref2}
+            focus={value.focus}
+            index={value.value}
+            isDragging={isDragging}
+        >
             <form>
                 <div ref={ref}>
                     <MdReorder className="material-icons" />
