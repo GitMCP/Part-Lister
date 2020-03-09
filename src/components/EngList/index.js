@@ -1,11 +1,27 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useDrop } from 'react-dnd';
-import MainContext from '../Main/context';
+import { useDispatch, connect } from 'react-redux';
 import { Container } from './styles';
 import EngItem from '../EngItem';
 
-export default function EngList({ list }) {
-    const { movetoel } = useContext(MainContext);
+function EngList({ engList, partList }) {
+    const dispatch = useDispatch();
+
+    function movetoel(item, index = 0) {
+        if (partList.includes(item.iteminfo)) {
+            dispatch({
+                type: 'REMOVE_FROM_PL',
+                index: partList.indexOf(item.iteminfo),
+            });
+        }
+        if (!engList.includes(item.iteminfo)) {
+            dispatch({
+                type: 'ADD_TO_EL',
+                index,
+                iteminfo: item.iteminfo,
+            });
+        }
+    }
 
     const [{ isOver }, dropRef] = useDrop({
         accept: ['ITEM', 'ENGITEM'],
@@ -14,7 +30,7 @@ export default function EngList({ list }) {
                 movetoel(item.root);
             } else if (item.type === 'ENGITEM') {
                 if (item.root) {
-                    movetoel(item);
+                    movetoel(item, item.root);
                 }
             }
         },
@@ -32,7 +48,7 @@ export default function EngList({ list }) {
             </header>
             <ul ref={dropRef}>
                 <p className="message">Move back to Engineering List</p>
-                {list.map((item, index) => (
+                {engList.map((item, index) => (
                     <div className="item">
                         <EngItem key={item.id} value={index} iteminfo={item} />
                     </div>
@@ -41,3 +57,8 @@ export default function EngList({ list }) {
         </Container>
     );
 }
+
+export default connect(state => ({
+    engList: state.engList,
+    partList: state.partList,
+}))(EngList);

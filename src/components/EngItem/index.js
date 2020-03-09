@@ -1,13 +1,19 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef } from 'react';
 import { MdReorder } from 'react-icons/md';
 import { useDrag } from 'react-dnd';
+import { connect, useDispatch } from 'react-redux';
 import { Container } from './styles';
-import MainContext from '../Main/context';
 
-export default function EngItem({ value, iteminfo }) {
+function EngItem({ value, iteminfo }) {
     const ref = useRef();
     const ref2 = useRef();
-    const { handleFocus } = useContext(MainContext);
+    const dispatch = useDispatch();
+    function handleFocus(index) {
+        dispatch({
+            type: 'HANDLE_FOCUS',
+            index,
+        });
+    }
     const [{ isDragging }, dragRef, preview] = useDrag({
         item: { type: 'ENGITEM', value, iteminfo },
         collect: monitor => ({
@@ -34,3 +40,4 @@ export default function EngItem({ value, iteminfo }) {
         </Container>
     );
 }
+export default connect()(EngItem);

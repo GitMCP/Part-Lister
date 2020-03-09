@@ -1,14 +1,17 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef } from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import { MdReorder } from 'react-icons/md';
 import { useDrag, useDrop } from 'react-dnd';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { Container } from './styles';
-import MainContext from '../Main/context';
 
-export default function Item(value) {
+function Item(value) {
     let variant = useState('');
     let apn = useState('');
-
+    const partList = useSelector(state => state.partList);
+    const engList = useSelector(state => state.engList);
+    const focus = useSelector(state => state.focus);
+    const dispatch = useDispatch();
     function apnRegex(e) {
         const re = /^[0-9]*$/;
         if (e.target.value === '' || re.test(e.target.value)) {
@@ -25,10 +28,38 @@ export default function Item(value) {
     }
     const ref = useRef();
     const ref2 = useRef();
-    const { moveinpl, removefromel, addtopl, handleFocus } = useContext(
-        MainContext
-    );
 
+    function moveinpl(from, to) {
+        dispatch({
+            type: 'MOVE_IN_PL',
+            from,
+            to,
+        });
+    }
+    function addtopl(item) {
+        if (!partList.includes(item)) {
+            dispatch({
+                type: 'ADD_TO_PL',
+                item,
+            });
+            return partList.indexOf(item);
+        }
+        return partList.indexOf(item);
+    }
+    function removefromel(item) {
+        if (engList.includes(item)) {
+            dispatch({
+                type: 'REMOVE_FROM_EL',
+                index: engList.indexOf(item),
+            });
+        }
+    }
+    function handleFocus(index) {
+        dispatch({
+            type: 'HANDLE_FOCUS',
+            index,
+        });
+    }
     const [{ isDragging }, dragRef, preview] = useDrag({
         item: { type: 'ITEM', value },
         collect: monitor => ({
@@ -103,7 +134,7 @@ export default function Item(value) {
     return (
         <Container
             ref={ref2}
-            focus={value.focus}
+            focus={focus}
             index={value.value}
             isDragging={isDragging}
         >
@@ -152,3 +183,4 @@ export default function Item(value) {
         </Container>
     );
 }
+export default connect()(Item);

@@ -1,12 +1,30 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useDrop } from 'react-dnd';
-import MainContext from '../Main/context';
+import { useDispatch, connect } from 'react-redux';
 import { Container } from './styles';
 import Item from '../Item';
 
-export default function PartList({ list, focus }) {
-    const { addtopl, removefromel } = useContext(MainContext);
+function PartList({ partList, engList }) {
+    const dispatch = useDispatch();
 
+    function addtopl(item) {
+        if (!partList.includes(item)) {
+            dispatch({
+                type: 'ADD_TO_PL',
+                item,
+            });
+            return partList.indexOf(item);
+        }
+        return null;
+    }
+    function removefromel(item) {
+        if (engList.includes(item)) {
+            dispatch({
+                type: 'REMOVE_FROM_EL',
+                index: engList.indexOf(item),
+            });
+        }
+    }
     const [, dropRef] = useDrop({
         accept: ['ENGITEM'],
         // hover(item, monitor) {},
@@ -35,15 +53,15 @@ export default function PartList({ list, focus }) {
                 <h1 id="qty">Quantity</h1>
             </header>
             <ul ref={dropRef}>
-                {list.map((item, index) => (
-                    <Item
-                        key={item.id}
-                        value={index}
-                        focus={focus}
-                        iteminfo={item}
-                    />
+                {partList.map((item, index) => (
+                    <Item key={item.id} value={index} iteminfo={item} />
                 ))}
             </ul>
         </Container>
     );
 }
+
+export default connect(state => ({
+    partList: state.partList,
+    engList: state.engList,
+}))(PartList);
